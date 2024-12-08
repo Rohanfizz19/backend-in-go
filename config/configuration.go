@@ -3,9 +3,37 @@ package config
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/spf13/viper"
 )
+
+type HttpServer struct {
+	Port         int
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
+	IdleTimeout  time.Duration
+}
+
+func (c *HttpServer) String() string {
+	return fmt.Sprintf("Port - %d, readTimeout: %v, WriteTimeout: %v, Idletimeout: %v",
+		c.Port, c.ReadTimeout, c.WriteTimeout, c.IdleTimeout)
+}
+
+type BigCacheConfig struct {
+	TTL              int  `mapstructure:"TTL_SECS"`
+	Flag             bool `mapstructure:"FLAG"`
+	Shards           int  `mapstructure:"SHARDS"`
+	MaxEntrySize     int  `mapstructure:"MAX_ENTRY_SIZE"`
+	StatsEnabled     bool `mapstructure:"STATS_ENABLED"`
+	HardMaxCacheSize int  `mapstructure:"HARD_MAX_CACHE_SIZE"`
+}
+
+type Cors struct {
+	Origins []string `mapstructure:"ORIGINS"`
+	Methods []string `mapstructure:"METHODS"`
+	Headers []string `mapstructure:"HEADERS"`
+}
 
 type Log struct {
 	Level                      string   `mapstructure:"LEVEL"`
@@ -17,8 +45,10 @@ type Log struct {
 
 type Configurations struct {
 	Environment string
-	AppName     string `mapstructure:"APP_NAME"`
-	LogConfig   Log    `mapstructure:"LOG"`
+	AppName     string         `mapstructure:"APP_NAME"`
+	LogConfig   Log            `mapstructure:"LOG"`
+	BigCache    BigCacheConfig `mapstructure:"BIG_CACHE"`
+	HttpServer  *HttpServer    `json:"httpServer"`
 }
 
 var Configuration Configurations

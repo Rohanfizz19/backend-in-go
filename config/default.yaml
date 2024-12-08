@@ -1,2 +1,20 @@
 APP_NAME: "backend"
 ENVIRONMENT: "PROD"
+BIG_CACHE:
+  TTL_SECS: 900
+  FLAG: true
+  SHARDS: 16
+  MAX_ENTRY_SIZE: 20
+  STATS_ENABLED: true
+  HARD_MAX_CACHE_SIZE: 200
+
+CORS:
+  ORIGINS: https://reviews.swiggy.com
+  METHODS: POST,OPTIONS
+  HEADERS: Content-Type,Accept,Access-Control-Allow-Origin,deviceid,sid,tid,token,version-code
+
+httpServer:
+  port: 8080
+  readTimeout: 5s
+  writeTimeout: 15s
+  idleTimeout: 10s
